@@ -1,2 +1,3 @@
 # start
-Nix Flake providing some essentials
+
+Nix Flake providing essentials
