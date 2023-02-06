@@ -11,7 +11,6 @@
   outputs = { self, flake-utils, nixpkgs-stable, pri-templates, rust-overlay, ... }@inputs:
   
   let
-
     templates = pri-templates.templates;
 
   in {
@@ -21,5 +20,19 @@
     };
     inherit flake-utils;
     inherit nixpkgs-stable;
+
+    # Downstream systems can call this to generate a sane default config for their
+    #  Rust environments.
+    mkRustDefaults = pkgs: rec {
+      rustChannel = "nightly";
+      rustVersion = ( pkgs.rust-bin.${rustChannel}.latest.default.override {
+        extensions = [ "rust-src" ];
+        targets = [ "wasm32-unknown-unknown" ];
+      });
+      rustPlatform = pkgs.makeRustPlatform {
+        cargo = rustVersion;
+        rustc = rustVersion;
+      };
+    };
   };
 }
