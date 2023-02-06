@@ -2,8 +2,7 @@
   description = "Panic's Essentials";
 
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-21.11";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "nixpkgs/nixos-22.11";
     utils = { url = "github:numtide/flake-utils"; };
     rust-overlay = { url = "github:oxalica/rust-overlay"; };
     flake-compat = {
@@ -13,7 +12,7 @@
     pmc-templates.url = "github:panicmacc/templates";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, pmc-templates, utils, rust-overlay, ... }@inputs:
+  outputs = { self, nixpkgs, pmc-templates, utils, rust-overlay, ... }@inputs:
   
   let
 
@@ -54,97 +53,102 @@
     # Uncomment to use unstable everything
     #
     
-    overlays = [
-      rust-overlay.overlays.default
-    ];
+    # overlays = [
+    #   rust-overlay.overlays.default
+    # ];
     
-    pkgs = import nixpkgs-unstable {
-      inherit overlays system;
-      config = { allowUnfree = true; };
-    };
+    # pkgs = import nixpkgs-unstable {
+    #   inherit overlays system;
+    #   config = { allowUnfree = true; };
+    # };
 
-    # Helper functions
-    lib = nixpkgs-unstable.lib;
+    # # Helper functions
+    # lib = nixpkgs-unstable.lib;
       
-    ##########
-    # Rust Overlay Configuration  
-    #
+    # ##########
+    # # Rust Overlay Configuration  
+    # #
       
-    rustChannel = "nightly";
+    # rustChannel = "nightly";
     
-    rustVersion = (pkgs.rust-bin.${rustChannel}.latest.default.override {
-      extensions = [ "rust-src" ];
-      targets = [ "wasm32-unknown-unknown" ];
-    });
+    # rustVersion = (pkgs.rust-bin.${rustChannel}.latest.default.override {
+    #   extensions = [ "rust-src" ];
+    #   targets = [ "wasm32-unknown-unknown" ];
+    # });
         
-    rustPlatform = pkgs.makeRustPlatform {
-      cargo = rustVersion;
-      rustc = rustVersion;
-    };
+    # rustPlatform = pkgs.makeRustPlatform {
+    #   cargo = rustVersion;
+    #   rustc = rustVersion;
+    # };
     
-    #########~
+    # #########~
 
-    # `buildInputs` is for runtime dependencies. They need to match the target architecture.
-    buildInputs = with pkgs; [
-      alsa-lib
-      egl-wayland
-      glew-egl
-      glib
-      libGL
-      libGLU
-      libglvnd
-      libxkbcommon
-      mesa
-      openssl.dev
-      vulkan-loader
-      wayland
-      wayland-protocols
-      xorg.libxcb
-      xorg.libX11
-      xorg.libXi
-      # Adding these to try to get bevy to build
-      pkgconfig
-      rust-analyzer
-      udev
-      alsaLib
-      #xlibsWrapper
-      xorg.libXcursor
-      xorg.libXrandr
-      xorg.libXi
-      vulkan-tools
-      vulkan-headers
-      vulkan-loader
-      vulkan-validation-layers        
-      #for blackjack
-      atk
-      gsettings-desktop-schemas
-      gtk3
-      gdk-pixbuf
-    ];
+    # # `buildInputs` is for runtime dependencies. They need to match the target architecture.
+    # buildInputs = with pkgs; [
+    #   alsa-lib
+    #   egl-wayland
+    #   glew-egl
+    #   glib
+    #   libGL
+    #   libGLU
+    #   libglvnd
+    #   libxkbcommon
+    #   mesa
+    #   openssl.dev
+    #   vulkan-loader
+    #   wayland
+    #   wayland-protocols
+    #   xorg.libxcb
+    #   xorg.libX11
+    #   xorg.libXi
+    #   pkgconfig
+    #   rust-analyzer
+    #   udev
+    #   alsaLib
+    #   #xlibsWrapper
+    #   xorg.libXcursor
+    #   xorg.libXrandr
+    #   xorg.libXi
+    #   vulkan-tools
+    #   vulkan-headers
+    #   vulkan-loader
+    #   vulkan-validation-layers        
+    #   atk
+    #   gsettings-desktop-schemas
+    #   gtk3
+    #   gdk-pixbuf
+    # ];
 
-    # `nativeBuildInputs` is for build dependencies. They need to match the build host architecture.
-    #  These get automatically added to PATH at build time.
-    nativeBuildInputs = with pkgs; [
-      binaryen
-      cargo
-      jq
-      nodejs
-      pkgconfig
-      rust-analyzer
-      rustVersion
-      python3
-      speechd
-      trunk
-      unzip
-      vulkan-loader
-      wasm-bindgen-cli
-      wasm-pack
-      zip
-    ];
+    # # `nativeBuildInputs` is for build dependencies. They need to match the build host architecture.
+    # #  These get automatically added to PATH at build time.
+    # nativeBuildInputs = with pkgs; [
+    #   binaryen
+    #   cargo
+    #   jq
+    #   nodejs
+    #   pkgconfig
+    #   rust-analyzer
+    #   rustVersion
+    #   python3
+    #   speechd
+    #   trunk
+    #   unzip
+    #   vulkan-loader
+    #   wasm-bindgen-cli
+    #   wasm-pack
+    #   zip
+    # ];
 
     templates = pmc-templates.templates;
 
   in {
     inherit templates;
+    overlays = {
+      inherit rust-overlay;
+      stable-overlay = self: super: {
+        flake-utils = utils;
+        stable = nixpkgs;
+      };
+    };
   };
 }
