@@ -147,7 +147,7 @@
       inherit rust-overlay;
       stable-overlay = self: super: {
         flake-utils = utils;
-        stable = nixpkgs.legacyPackages.${system};
+        stable = nixpkgs;
       };
     };
   };
