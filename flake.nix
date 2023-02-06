@@ -154,5 +154,6 @@
       #   stable = nixpkgs;
       # };
     };
+    nixpkgs-stable = nixpkgs;
   };
 }
