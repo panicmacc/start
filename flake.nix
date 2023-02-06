@@ -41,6 +41,9 @@
     #   stable_unstable_things
     # ];
  
+    stable-overlay = self: super: {
+      stable = nixpkgs;
+    };
     # pkgs = import nixpkgs {
     #   inherit system;
     #   overlays = stable_overlays;
@@ -145,10 +148,11 @@
     inherit templates;
     overlays = {
       inherit rust-overlay;
-      stable-overlay = self: super: {
-        flake-utils = utils;
-        stable = nixpkgs;
-      };
+      inherit stable-overlay;
+      # stable-overlay = self: super: {
+      #   flake-utils = utils;
+      #   stable = nixpkgs;
+      # };
     };
   };
 }
