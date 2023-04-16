@@ -577,11 +577,11 @@
         "jupyenv": "jupyenv"
       },
       "locked": {
-        "lastModified": 1681610570,
-        "narHash": "sha256-otOff8oMLSoqLDxDq1GT8ELWzyxyhzypRc5LJQd+Ixg=",
+        "lastModified": 1681611043,
+        "narHash": "sha256-hVmirSgWMGqouozipcLsOZJ5MZbIYCk+dW9tNlt43+M=",
         "owner": "panicmacc",
         "repo": "templates",
-        "rev": "e48b5ab1fa6097c6b62bbef47e3b46f7a60dc923",
+        "rev": "e7ee9a479ed946c16101f92a69089ffb61464d65",
         "type": "github"
       },
       "original": {
