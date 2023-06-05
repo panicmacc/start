@@ -2,7 +2,7 @@
   description = "Panic's Essentials";
 
   inputs = {
-    nixpkgs-stable.url = "nixpkgs/nixos-22.11";
+    nixpkgs-stable.url = "nixpkgs/nixos-23.05";
     flake-utils = { url = "github:numtide/flake-utils"; };
     rust-overlay = { url = "github:oxalica/rust-overlay"; };
     pri-templates.url = "github:panicmacc/templates";
