@@ -6,9 +6,11 @@
     flake-utils = { url = "github:numtide/flake-utils"; };
     rust-overlay = { url = "github:oxalica/rust-overlay"; };
     pri-templates.url = "github:panicmacc/templates";
+    home-manager.url = "github:nix-community/home-manager/release-23.05";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs-stable";
   };
 
-  outputs = { self, flake-utils, nixpkgs-stable, pri-templates, rust-overlay, ... }@inputs:
+  outputs = { self, flake-utils, nixpkgs-stable, pri-templates, rust-overlay, home-manager, ... }@inputs:
   
   let
     templates = pri-templates.templates;
@@ -20,6 +22,7 @@
     };
     inherit flake-utils;
     inherit nixpkgs-stable;
+    inherit home-manager;
 
     # Downstream systems can call this to generate a sane default config for their
     #  Rust environments.
