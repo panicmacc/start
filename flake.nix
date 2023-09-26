@@ -13,16 +13,17 @@
   outputs = { self, flake-utils, nixpkgs-stable, pri-templates, rust-overlay, home-manager, ... }@inputs:
   
   let
+
     templates = pri-templates.templates;
 
   in {
-    inherit templates;
-    overlays = {
-      inherit rust-overlay;
-    };
+
     inherit flake-utils;
-    inherit nixpkgs-stable;
     inherit home-manager;
+    inherit nixpkgs-stable;
+    inherit templates;
+
+    overlays = { inherit rust-overlay; };
 
     # Downstream systems can call this to generate a sane default config for their
     #  Rust environments.
@@ -37,5 +38,10 @@
         rustc = rustVersion;
       };
     };
+
+    homeManagerModules = {
+      hyprland = import ./home-manager/hyprland/hyprland.nix;
+    };
+
   };
 }
