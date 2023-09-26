@@ -102,7 +102,7 @@ in {
         }; 
       }
       {
-        inherit (cfg) warnings assertions;
+        #inherit (cfg) warnings assertions;
       }
     ]);
 
