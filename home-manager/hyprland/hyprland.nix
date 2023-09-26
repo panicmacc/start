@@ -30,7 +30,7 @@ let
   bindm = $mod, mouse:272, movewindow
   bindm = $mod, mouse:273, resizewindow
   
-  monitor = eDP-1, 2256x1504, 0x0, 1.3
+  #monitor = eDP-1, 2256x1504, 0x0, 1.3
 
   general {
   
